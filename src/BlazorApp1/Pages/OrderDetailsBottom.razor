@@ -2,6 +2,7 @@
 <br />
 
 <button class="btn btn-primary" @onclick="AddLineItem">Add a Line Item from bottom child component</button>
+<button class="btn btn-primary" @onclick="TellParentFormToRefresh">Tell Parent to refresh from bottom child component</button>
 
 @if (MyCascadedOrder != null)
 {
@@ -21,10 +22,17 @@
 @code {
 
     [CascadingParameter(Name = "MyOrder")] Order MyCascadedOrder { get; set; }
+    [Parameter] public Action UpdateParentFormCallback { get; set; }
 
     private void AddLineItem()
     {
         MyCascadedOrder.AddLineItem();
+    }
+
+
+    private void TellParentFormToRefresh()
+    {
+        UpdateParentFormCallback?.Invoke();
     }
 
 }

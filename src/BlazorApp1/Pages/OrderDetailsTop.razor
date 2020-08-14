@@ -1,13 +1,15 @@
 ﻿
-<br/><br/>
+<br />
+<br />
 <button class="btn btn-primary" @onclick="AddLineItem">Add a Line Item from top child component</button>
+<button class="btn btn-primary" @onclick="TellParentFormToRefresh">Tell Parent to refresh from top child component</button>
 
 @if (MyCascadedOrder != null)
 {
 
     @foreach (var line in MyCascadedOrder.LineItems)
     {
-        <br/>
+        <br />
         <label>I'm on the top</label>
         <label> Quantity</label>
         <input type="text" @bind=line.Quantity />
@@ -20,10 +22,15 @@
 @code {
 
     [CascadingParameter(Name = "MyOrder")] Order MyCascadedOrder { get; set; }
+    [Parameter] public Action UpdateParentFormCallback { get; set; }
 
     private void AddLineItem()
     {
         MyCascadedOrder.AddLineItem();
     }
 
+    private void TellParentFormToRefresh()
+    {
+        UpdateParentFormCallback?.Invoke();
+    }
 }

@@ -22,8 +22,8 @@
     <br />
     <CascadingValue Name="MyOrder" Value="MyOrder">
 
-        <OrderDetailsTop></OrderDetailsTop>
-        <OrderDetailsBottom></OrderDetailsBottom>
+        <OrderDetailsTop UpdateParentFormCallback="UpdateMyState"></OrderDetailsTop>
+        <OrderDetailsBottom  UpdateParentFormCallback="UpdateMyState"></OrderDetailsBottom>
 
     </CascadingValue>
 }
@@ -42,5 +42,8 @@
         MyOrder.AddLineItem();
     }
 
-
+    private void UpdateMyState()
+    {
+        StateHasChanged();
+    }
 }
