@@ -1,0 +1,29 @@
+﻿
+<br/><br/>
+<button class="btn btn-primary" @onclick="AddLineItem">Add a Line Item from top child component</button>
+
+@if (MyCascadedOrder != null)
+{
+
+    @foreach (var line in MyCascadedOrder.LineItems)
+    {
+        <br/>
+        <label>I'm on the top</label>
+        <label> Quantity</label>
+        <input type="text" @bind=line.Quantity />
+        <label> name</label>
+        <input type="text" @bind=line.ItemName />
+    }
+
+}
+
+@code {
+
+    [CascadingParameter(Name = "MyOrder")] Order MyCascadedOrder { get; set; }
+
+    private void AddLineItem()
+    {
+        MyCascadedOrder.AddLineItem();
+    }
+
+}

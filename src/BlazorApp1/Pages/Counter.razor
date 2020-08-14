@@ -1,0 +1,46 @@
+﻿@page "/counter"
+
+<h1>Counter</h1>
+
+<p>
+    This is a test to see how Blazor updates the UI when making changes to child and sibling pages.
+</p>
+<p>
+
+</p>
+
+<p>Current count: @currentCount</p>
+<br />
+<button class="btn btn-primary" @onclick="IncrementCount">Click to refresh the parent form UI</button>
+<br />
+<button class="btn btn-primary" @onclick="AddLineItem">Add a Line Item to the Order</button>
+
+@if (MyOrder != null)
+{
+    <label>Num line items: @MyOrder.NumLineItems</label>
+    <br />
+    <br />
+    <CascadingValue Name="MyOrder" Value="MyOrder">
+
+        <OrderDetailsTop></OrderDetailsTop>
+        <OrderDetailsBottom></OrderDetailsBottom>
+
+    </CascadingValue>
+}
+
+@code {
+    private int currentCount = 0;
+    public Order MyOrder { get; set; } = new Order();
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private void AddLineItem()
+    {
+        MyOrder.AddLineItem();
+    }
+
+
+}
