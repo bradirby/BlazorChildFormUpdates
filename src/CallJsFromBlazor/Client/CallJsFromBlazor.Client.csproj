@@ -33,12 +33,6 @@
     <Content Update="Shared\NavMenu.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
-    <Content Update="wwwroot\scripts\CallJavaScriptFromBlazor - Copy.js">
-      <DependentUpon>CallJavaScriptFromBlazor.js</DependentUpon>
-    </Content>
-    <Content Update="wwwroot\scripts\CallJavaScriptFromBlazor - Copy.js.map">
-      <DependentUpon>CallJavaScriptFromBlazor.js.map</DependentUpon>
-    </Content>
   </ItemGroup>
 
 </Project>

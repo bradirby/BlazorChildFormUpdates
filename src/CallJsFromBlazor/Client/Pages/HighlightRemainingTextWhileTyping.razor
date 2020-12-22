@@ -1,0 +1,16 @@
+﻿@page "/HighlightRemainingTextWhileTyping"
+
+<input type="text" @bind=strVal/>
+
+@code {
+    [Inject]public IJSRuntime JSRuntime { get; set; }
+
+    string strVal = "Hello brad have a nice day";
+
+    public async Task ShowAlertWindow()
+    {
+        await JSRuntime.InvokeVoidAsync("showAlert", "JS function called from .NET");
+    }
+
+
+}
