@@ -1,0 +1,14 @@
+﻿@page "/CallJavaScriptFromBlazor"
+
+<button type="button" class="btn btn-info" @onclick="ShowAlertWindow">Show Alert Window</button>
+
+@code {
+    [Inject]public IJSRuntime JSRuntime { get; set; }
+
+    public async Task ShowAlertWindow()
+    {
+        await JSRuntime.InvokeVoidAsync("showAlert", "JS function called from .NET");
+    }
+
+
+}
