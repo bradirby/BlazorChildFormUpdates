@@ -1,0 +1,19 @@
+﻿@page "/CallJavaScriptModuleFromBlazor"
+
+<button type="button" class="btn btn-info" @onclick="ShowAlertWindow">Show Alert Window using JS in a module</button>
+
+@code {
+
+    [Inject] public IJSRuntime JSRuntime { get; set; }
+    private IJSObjectReference _jsModule;
+    protected override async Task OnInitializedAsync()
+    {
+        _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./scripts/jsExamples.js");
+    }
+    public async Task ShowAlertWindow()
+    {
+        await _jsModule.InvokeVoidAsync("showAlert", "JS function called from .NET");
+    }
+
+
+}

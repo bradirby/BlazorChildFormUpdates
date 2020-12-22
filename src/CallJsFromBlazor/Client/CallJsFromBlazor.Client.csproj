@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\scripts\CallJavaScriptFromBlazor.ts" />
+    <Content Remove="wwwroot\scripts\CallJavaScriptModuleFromBlazor.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\scripts\CallJavaScriptFromBlazor.ts" />
+    <TypeScriptCompile Include="wwwroot\scripts\CallJavaScriptModuleFromBlazor.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Shared\NavMenu.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="wwwroot\scripts\CallJavaScriptFromBlazor - Copy.js">
+      <DependentUpon>CallJavaScriptFromBlazor.js</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\scripts\CallJavaScriptFromBlazor - Copy.js.map">
+      <DependentUpon>CallJavaScriptFromBlazor.js.map</DependentUpon>
+    </Content>
+  </ItemGroup>
+
+</Project>
