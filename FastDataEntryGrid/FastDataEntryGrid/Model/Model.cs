@@ -14,16 +14,13 @@ namespace FastDataEntryGrid
         public bool BooValue { get; set; }
     }
 
-
     public class GridDetailItemAdapter
     {
         public GridDetailItem Data { get; }
-        private List<MyLookupCode> LookupCache { get; set; }
 
-        public GridDetailItemAdapter(GridDetailItem data, List<MyLookupCode> lkCache)
+        public GridDetailItemAdapter(GridDetailItem data)
         {
             Data = data;
-            LookupCache = lkCache;
         }
 
         public bool BoolVal

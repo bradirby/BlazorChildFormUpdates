@@ -1,0 +1,74 @@
+﻿@page "/"
+@using BlazorDateRangePicker
+@using Smart.Blazor
+@using System.Text
+
+
+<h1>Hello, world!</h1>
+
+DateRangePicker.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<a href="https://blazordaterangepicker.azurewebsites.net/positioning">Blazor Date Rate Picker</a> with <a href="https://github.com/jdtcn/BlazorDateRangePicker">github</a>
+
+<p><DateRangePicker SingleDatePicker="true" @bind-StartDate="StartDate" @bind-EndDate="EndDate" /></p>
+<p><DateRangePicker @ref="SimplePicker" @bind-StartDate="StartDate" @bind-EndDate="EndDate" SingleDatePicker="true" ShowDropdowns="false"  OnOpened="SimpleOnOpened" placeholder="Select dates..." /></p>
+<p>StartDate: @StartDate)</p>
+<p>EndDate: @EndDate)</p>
+
+<DateRangePicker ShowOnlyOneCalendar="true" ShowDropdowns="false" AutoApply="true" @ref="CustomFormatPicker" OnOpened="OnOpened" placeholder="(Select ship date)">
+    <PickerTemplate>
+        <div id="@context.Id" @onclick="context.Toggle" style="background: #fff; cursor: pointer; padding: .45rem 10px; border: 1px solid #ccc; border-radius: 5px;">
+            <i class="oi oi-calendar"></i>&nbsp;
+            <span>
+                @if (context.TStartDate == null && context.TEndDate == null)
+                {
+                    <span>Select date...</span>
+                }
+                else if (context.TStartDate != null && context.TEndDate == null)
+                {
+                    if (context.HoverDate > context.TStartDate)
+                    {
+                        @($"{context.TStartDate.Value.ToString(context.DateFormat)} ")
+                        @($" - ({(context.HoverDate.Value.Subtract(context.TStartDate.Value).Days).ToString()} days)")
+                    }
+                    else
+                    {
+                        <span>@context.TStartDate.Value.ToString("dd/MM/yyyy")</span>
+                    }
+                }
+                else
+                {
+                    <span>
+                        @context.FormattedRange @($" - ({(context.TEndDate.Value.Subtract(context.TStartDate.Value).Days).ToString()} days)")
+                    </span>
+                }
+            </span>
+            <i class="oi oi-chevron-bottom float-right"></i>
+        </div>
+    </PickerTemplate>
+</DateRangePicker>
+
+
+@code{
+
+    public DateTimeOffset OrderDate = DateTimeOffset.Now;
+    public DateTimeOffset? StartDate { get; set; } = DateTime.Now;
+    public DateTimeOffset? EndDate { get; set; } = DateTime.Now.AddDays(15);
+
+    DateRangePicker SimplePicker { get; set; }
+    DateRangePicker CustomFormatPicker { get; set; }
+
+    private void OnOpened()
+    {
+        CustomFormatPicker.TStartDate = DateTimeOffset.Now;
+    }
+
+    private void SimpleOnOpened()
+    {
+        SimplePicker.TStartDate = OrderDate;
+    }
+
+
+}
