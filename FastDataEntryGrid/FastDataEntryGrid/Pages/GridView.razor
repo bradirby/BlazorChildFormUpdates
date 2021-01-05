@@ -1,0 +1,16 @@
+﻿
+
+@if (ItemList != null)
+{
+    @foreach (var ds in ItemList)
+    {
+        <GridRowView CurrentItem=@(new DoorSetDataEntryGridRowAdapter(ds, LookupCache)) ></GridRowView>
+    }
+}
+
+
+
+@code{
+    [Parameter] public List<GridDetailItem> ItemList{ get; set; }
+
+}
