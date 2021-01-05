@@ -1,0 +1,37 @@
+﻿@using Blazored.Typeahead
+
+<h3>BlazoredTypeaheadTest</h3>
+
+
+<BlazoredTypeahead SearchMethod="SearchFilms" @bind-Value="SelectedFilm" Debounce="5">
+    <SelectedTemplate>
+        @context.Title
+    </SelectedTemplate>
+    <ResultTemplate>
+        @context.Title (@context.Year)
+    </ResultTemplate>
+</BlazoredTypeahead>
+
+@code {
+
+    public Film SelectedFilm { get; set; }
+
+    [Parameter] public List<Film> Films { get; set; } = new List<Film>();
+
+    private async Task<IEnumerable<Film>> SearchFilms(string searchText)
+    {
+        return await Task.FromResult(Films.Where(x => x.Title.ToLower().Contains(searchText.ToLower())).ToList());
+    }
+
+    protected override void OnInitialized()
+    {
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"first title {2000 + n}", Year = 2000+n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"second title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"third title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"fourth title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"fifth title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"sixth title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"seventh title {2000 + n}", Year = 2000 + n });
+    }
+
+}

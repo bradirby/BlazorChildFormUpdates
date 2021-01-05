@@ -1,4 +1,6 @@
 ﻿@using BlazorDateRangePicker
+@using Blazored.Typeahead
+
 
 @page "/"
 
@@ -6,33 +8,12 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
 
+<BlazoredTypeaheadTest></BlazoredTypeaheadTest>
 
-
-<MultiStateSelector @bind-Value=twoStateVal Options=PossibleStates />
-
-<div>Selected value: @twoStateVal</div>
-
-<GridView ItemList=@Data.Items></GridView>
 
 
 @code{
 
-    private ViewDataContainer Data { get; set; } = new ViewDataContainer();
-
-    public int SelectedCode { get; set; } = 1;
-
-    public Dictionary<int, string> PossibleStates { get; set; } = new Dictionary<int, string>();
-
-    int twoStateVal = 1;
-
-    protected override void OnInitialized()
-    {
-        PossibleStates.Add(1, "first");
-        PossibleStates.Add(2, "second");
-        PossibleStates.Add(3, "thid");
-        PossibleStates.Add(4, "fourth");
-    }
 
 }

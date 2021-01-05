@@ -1,0 +1,23 @@
+﻿<h3>MultiStateSelectorTestPage</h3>
+
+
+<MultiStateSelector @bind-Value=multiStateVal Options=PossibleStates />
+<div>Selected value: @multiStateVal</div>
+
+
+@code {
+
+
+    public Dictionary<int, string> PossibleStates { get; set; } = new Dictionary<int, string>();
+
+    int multiStateVal = 2;
+
+    protected override void OnInitialized()
+    {
+
+        PossibleStates.Add(1, "first");
+        PossibleStates.Add(2, "second");
+        PossibleStates.Add(3, "thid");
+        PossibleStates.Add(4, "fourth");
+    }
+}

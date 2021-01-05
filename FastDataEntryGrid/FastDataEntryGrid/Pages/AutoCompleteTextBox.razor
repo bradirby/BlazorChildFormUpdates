@@ -1,24 +1,20 @@
-﻿<button type="button" @onclick="() => SetValue(true)" class="@(Value ? "active" : "")">@TrueText</button>
-<button type="button" @onclick="() => SetValue(false)" class="@(!Value ? "active" : "")">@FalseText</button>
+﻿
+<input @bind-value="CurrentValue" @bind-value:event="oninput" />
+value is @CurrentValue
 
 @code{
-    [Parameter]
-    public string TrueText { get; set; }
 
     [Parameter]
-    public string FalseText { get; set; }
+    public string CurrentValue { get; set; }
 
     [Parameter]
-    public bool Value { get; set; }
+    public EventCallback<string> ValueChanged { get; set; }
 
-    [Parameter]
-    public EventCallback<bool> ValueChanged { get; set; }
-
-    private async Task SetValue(bool value)
+    private async Task SetValue(string value)
     {
-        if (Value != value)
+        if (CurrentValue != value)
         {
-            Value = value;
+            CurrentValue = value;
             await ValueChanged.InvokeAsync(value);
         }
     }
