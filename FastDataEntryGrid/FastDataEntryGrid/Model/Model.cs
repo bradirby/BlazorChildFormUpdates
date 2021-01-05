@@ -35,10 +35,10 @@ namespace FastDataEntryGrid
             set { Data.Quantity = value; }
         }
 
-        public DateTime CreateDate
+        public DateTimeOffset? CreateDate
         {
             get => Data.CreateDate;
-            set { Data.CreateDate = value; }
+            set { Data.CreateDate = value.Value.Date; }
         }
 
         public string LookupValue => Data.LookupCode.Value;

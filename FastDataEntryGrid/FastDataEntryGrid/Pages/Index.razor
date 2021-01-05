@@ -1,4 +1,6 @@
-﻿@page "/"
+﻿@using BlazorDateRangePicker
+
+@page "/"
 
 <h1>Hello, world!</h1>
 
@@ -6,17 +8,31 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-<GridView ItemList=@Data.Items ></GridView>
 
 
+<MultiStateSelector @bind-Value=twoStateVal Options=PossibleStates />
 
-    @code{
+<div>Selected value: @twoStateVal</div>
 
-        private ViewDataContainer Data { get; set; }
+<GridView ItemList=@Data.Items></GridView>
 
-        protected override void OnInitialized()
-        {
-            Data = new ViewDataContainer();
-        }
 
+@code{
+
+    private ViewDataContainer Data { get; set; } = new ViewDataContainer();
+
+    public int SelectedCode { get; set; } = 1;
+
+    public Dictionary<int, string> PossibleStates { get; set; } = new Dictionary<int, string>();
+
+    int twoStateVal = 1;
+
+    protected override void OnInitialized()
+    {
+        PossibleStates.Add(1, "first");
+        PossibleStates.Add(2, "second");
+        PossibleStates.Add(3, "thid");
+        PossibleStates.Add(4, "fourth");
     }
+
+}

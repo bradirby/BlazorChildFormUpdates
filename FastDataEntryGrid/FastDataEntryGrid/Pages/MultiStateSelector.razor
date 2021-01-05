@@ -1,0 +1,40 @@
+﻿
+@foreach (var o in Options)
+{
+    <button type="button" @onclick="() => SetValue(o.Key)" class="@((Value==@o.Key) ? ActiveClass : InActiveClass)">@o.Value</button>
+}
+
+
+
+@code{
+
+    [Parameter] public Dictionary<int, string> Options { get; set; }
+
+    [Parameter] public int Value { get; set; }
+
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+
+    private string ActiveClass { get; set; }
+    private string InActiveClass { get; set; }
+
+    private async Task SetValue(int value)
+    {
+        if (Value != value)
+        {
+            Value = value;
+            await ValueChanged.InvokeAsync(value);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        var colWidth = "col-12";
+        if (Options.Count == 2) colWidth = "col-6";
+        else if (Options.Count == 3) colWidth = "col-4";
+        else if (Options.Count == 4) colWidth = "col-3";
+
+        ActiveClass = $"{colWidth} btn my-2 my-sm-0 btn-primary";
+        InActiveClass = $"{colWidth} btn my-2 my-sm-0 btn-outline-primary";
+    }
+
+}

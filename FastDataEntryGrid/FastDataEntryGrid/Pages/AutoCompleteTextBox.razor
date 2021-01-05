@@ -1,0 +1,25 @@
+﻿<button type="button" @onclick="() => SetValue(true)" class="@(Value ? "active" : "")">@TrueText</button>
+<button type="button" @onclick="() => SetValue(false)" class="@(!Value ? "active" : "")">@FalseText</button>
+
+@code{
+    [Parameter]
+    public string TrueText { get; set; }
+
+    [Parameter]
+    public string FalseText { get; set; }
+
+    [Parameter]
+    public bool Value { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+    private async Task SetValue(bool value)
+    {
+        if (Value != value)
+        {
+            Value = value;
+            await ValueChanged.InvokeAsync(value);
+        }
+    }
+}
