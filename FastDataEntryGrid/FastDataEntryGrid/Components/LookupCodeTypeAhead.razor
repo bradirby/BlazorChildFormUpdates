@@ -1,0 +1,59 @@
+﻿@namespace MyComponents
+@using Blazored.Typeahead
+
+
+<BlazoredTypeahead SearchMethod="GetPeopleLocal"
+                   ConvertMethod="ConvertPerson"
+                   @bind-Value="SelectedPersonId">
+    <SelectedTemplate Context="personId">
+        @{
+            var selectedPerson = Options.FirstOrDefault(p => p.Id == personId);
+            <text>@selectedPerson?.Firstname @selectedPerson?.Lastname</text>
+        }
+    </SelectedTemplate>
+    <ResultTemplate Context="person">
+        @person.Firstname @person.Lastname (Id: @person.Id)
+    </ResultTemplate>
+</BlazoredTypeahead>
+
+
+@code {
+    public int? SelectedPersonId { get; set; }
+
+    private List<Person> Options = new List<Person>();
+
+    private async Task<IEnumerable<Person>> GetPeopleLocal(string searchText)
+    {
+        return await Task.FromResult(Options.Where(x => x.Firstname.ToLower().Contains(searchText.ToLower())).ToList());
+    }
+
+    protected override void OnInitialized()
+    {
+        Options = new List<Person>();
+        var counter = 1;
+        Options.Add(new Person() { Id = counter++, Firstname = "Martelle", Lastname = "Cullon" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z10elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z21elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z32elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z43elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z54elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z65elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z76elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z87elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z98elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z09elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z11elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z12elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z13elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z24elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z35elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Z46elda", Lastname = "Abrahamsson" });
+        Options.Add(new Person() { Id = counter++, Firstname = "Benedetta", Lastname = "Posse" });
+
+    }
+
+
+    private int? ConvertPerson(Person arg) => arg.Id;
+
+
+}

@@ -1,4 +1,5 @@
-﻿
+﻿@namespace MyComponents
+
 @foreach (var o in Options)
 {
     <button type="button" @onclick="() => SetValue(o.Key)" class="@((Value==@o.Key) ? ActiveClass : InActiveClass)">@o.Value</button>

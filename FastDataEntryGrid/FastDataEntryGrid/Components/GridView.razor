@@ -1,0 +1,16 @@
+﻿@namespace MyComponents
+
+@if (ItemList != null)
+{
+    @foreach (var ds in ItemList)
+    {
+        <GridRowView CurrentItemAdapter=@(new GridDetailItemAdapter(ds))></GridRowView>
+    }
+}
+
+
+
+@code{
+    [Parameter] public List<GridDetailItem> ItemList { get; set; }
+
+}
