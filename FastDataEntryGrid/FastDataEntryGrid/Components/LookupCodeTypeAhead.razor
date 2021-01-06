@@ -37,6 +37,11 @@ internal value: @SelectedCode
     }
     private int _selCode;
 
+    protected override void OnInitialized()
+    {
+        SelectedCodeInternal = SelectedCode;
+    }
+
 
     private async Task<IEnumerable<LookupCode>> SearchForOption(string searchText)
     {
