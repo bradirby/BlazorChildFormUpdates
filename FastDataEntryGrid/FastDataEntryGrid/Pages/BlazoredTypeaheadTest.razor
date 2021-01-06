@@ -1,4 +1,5 @@
-﻿@using Blazored.Typeahead
+﻿@using MyComponents
+@using Blazored.Typeahead
 
 <h3>BlazoredTypeaheadTest</h3>
 
@@ -32,44 +33,25 @@
 
 <br />
 
-<BlazoredTypeahead SearchMethod="GetPeopleLocal"
-                   ConvertMethod="ConvertPerson"
-                   @bind-Value="SelectedPersonId">
-    <SelectedTemplate Context="personId">
-        @{
-            var selectedPerson = People.FirstOrDefault(p => p.Id == personId);
-            <text>@selectedPerson?.Firstname @selectedPerson?.Lastname</text>
-        }
-    </SelectedTemplate>
-    <ResultTemplate Context="person">
-        @person.Firstname @person.Lastname (Id: @person.Id)
-    </ResultTemplate>
-</BlazoredTypeahead>
+the copmonent: @lookupCode
+<LookupCodeTypeAhead Options=Codes @bind-SelectedCode=lookupCode ></LookupCodeTypeAhead>
 
 
 @code {
-    public int? SelectedPersonId { get; set; }
+
+    public int lookupCode { get; set; } = 2;
 
     public Film SelectedFilm1 { get; set; }
     public Film SelectedFilm2 { get; set; }
     public Film SelectedFilm3 { get; set; }
 
-    [Parameter]
     public List<Film> Films { get; set; } = new List<Film>();
-
-    private List<Person> People = new List<Person>();
+    private List<LookupCode> Codes = new List<LookupCode>();
 
     private async Task<IEnumerable<Film>> SearchFilms(string searchText)
     {
         return await Task.FromResult(Films.Where(x => x.Title.ToLower().Contains(searchText.ToLower())).ToList());
     }
-
-    private async Task<IEnumerable<Person>> GetPeopleLocal(string searchText)
-    {
-        return await Task.FromResult(People.Where(x => x.Firstname.ToLower().Contains(searchText.ToLower())).ToList());
-    }
-
-
 
     protected override void OnInitialized()
     {
@@ -81,31 +63,29 @@
         for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"sixth title {2000 + n}", Year = 2000 + n });
         for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"seventh title {2000 + n}", Year = 2000 + n });
 
-        People = new List<Person>();
+     
         var counter = 1;
-        People.Add(new Person() { Id = counter++, Firstname = "Martelle", Lastname = "Cullon" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z10elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z21elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z32elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z43elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z54elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z65elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z76elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z87elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z98elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z09elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z11elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z12elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z13elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z24elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z35elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Z46elda", Lastname = "Abrahamsson" });
-        People.Add(new Person() { Id = counter++, Firstname = "Benedetta", Lastname = "Posse" });
-
+        Codes.Add(new LookupCode() { Code = 0, Description = $"None" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter-1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"cDesc{counter - 1}" });
     }
 
-
-    private int? ConvertPerson(Person arg) => arg.Id;
 
 
 }
