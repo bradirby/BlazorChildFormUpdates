@@ -1,11 +1,10 @@
-﻿@namespace MyComponents
-@using Blazored.Typeahead
+﻿@using Blazored.Typeahead
 
 
 <BlazoredTypeahead SearchMethod="SearchForOption" ConvertMethod="ConvertPerson" @bind-Value=SelectedCodeInternal>
     <SelectedTemplate Context="selCode">
         @{
-            var selectedCode = Options.FirstOrDefault(p => p.Code == selCode);
+            var selectedCode = LookupOptions.FirstOrDefault(p => p.Code == selCode);
             <text>@selectedCode?.Description </text>
         }
     </SelectedTemplate>
@@ -18,7 +17,7 @@ internal value: @SelectedCode
 @code {
 
     [Parameter]
-    public List<LookupCode> Options { get; set; }
+    public List<LookupCode> LookupOptions { get; set; }
 
     [Parameter]
     public EventCallback<int> SelectedCodeChanged { get; set; }
@@ -45,7 +44,7 @@ internal value: @SelectedCode
 
     private async Task<IEnumerable<LookupCode>> SearchForOption(string searchText)
     {
-        return await Task.FromResult(Options.Where(x => x.Description.ToLower().Contains(searchText.ToLower())).ToList());
+        return await Task.FromResult(LookupOptions.Where(x => x.Description.ToLower().Contains(searchText.ToLower())).ToList());
     }
 
     private int? ConvertPerson(LookupCode arg) => arg?.Code ?? 0;
