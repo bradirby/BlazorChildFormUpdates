@@ -1,0 +1,85 @@
+﻿
+<h1>Custom Input Select Component</h1>
+
+<p>
+    original
+    <EditForm Model="RecordForm" OnValidSubmit="HandleValidSubmit">
+        <CustomInputSelect @bind-Value="RecordForm.SelectedPerson"
+                           ValidationFor="@(() => RecordForm.SelectedPerson)"
+                           Label="Select Person">
+            @foreach (var person in People)
+            {
+                <option value="@person.Id">@person.Name</option>
+            }
+        </CustomInputSelect>
+    </EditForm>
+</p>
+<p>Selected Person: @RecordForm?.SelectedPerson</p>
+<br />
+<p>
+    guid person
+    <EditForm Model="GuidRecordForm" OnValidSubmit="HandleValidSubmit">
+        <CustomInputSelect @bind-Value="GuidRecordForm.SelectedPerson"
+                           ValidationFor="@(() => GuidRecordForm.SelectedPerson)"
+                           Label="Select guid Person">
+            @foreach (var person in GuidPeople)
+            {
+                <option value="@person.Id">@person.Name</option>
+            }
+        </CustomInputSelect>
+    </EditForm>
+</p>
+<p>Selected Person: @GuidRecordForm?.SelectedPerson</p>
+
+<br />
+<p>
+    int person
+    <EditForm Model="IntRecordForm" OnValidSubmit="HandleValidSubmit">
+        <CustomInputSelect @bind-Value="IntRecordForm.SelectedPerson" ValidationFor="@(() => IntRecordForm.SelectedPerson)" Label="Select int Person">
+            @foreach (var person in IntPeople)
+            {
+                <option value="@person.Id">@person.Name</option>
+            }
+        </CustomInputSelect>
+    </EditForm>
+</p>
+<p>Selected Person: @IntRecordForm?.SelectedPerson</p>
+
+<hr />
+
+
+@code {
+
+    public Record RecordForm { get; set; } = new Record();
+    public GuidRecord GuidRecordForm { get; set; } = new GuidRecord();
+    public IntRecord IntRecordForm { get; set; } = new IntRecord();
+
+    public List<Person> People { get; set; } = new List<Person>();
+    public List<GuidPerson> GuidPeople { get; set; } = new List<GuidPerson>();
+    public List<IntPerson> IntPeople { get; set; } = new List<IntPerson>();
+
+    protected override void OnInitialized()
+    {
+        People.Add(new Person { Id = Guid.NewGuid(), Name = "John" });
+        People.Add(new Person { Id = Guid.NewGuid(), Name = "Steve" });
+        People.Add(new Person { Id = Guid.NewGuid(), Name = "Dave" });
+        People.Add(new Person { Id = Guid.NewGuid(), Name = "Alan" });
+
+        GuidPeople.Add(new GuidPerson { Id = Guid.NewGuid(), Name = "John" });
+        GuidPeople.Add(new GuidPerson { Id = Guid.NewGuid(), Name = "Steve" });
+        GuidPeople.Add(new GuidPerson { Id = Guid.NewGuid(), Name = "Dave" });
+        GuidPeople.Add(new GuidPerson { Id = Guid.NewGuid(), Name = "Alan" });
+
+        IntPeople.Add(new IntPerson { Id = 1, Name = "John" });
+        IntPeople.Add(new IntPerson { Id = 2, Name = "Steve" });
+        IntPeople.Add(new IntPerson { Id = 3, Name = "Dave" });
+        IntPeople.Add(new IntPerson { Id = 4, Name = "Alan" });
+
+    }
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine("Valid Submit");
+    }
+
+}

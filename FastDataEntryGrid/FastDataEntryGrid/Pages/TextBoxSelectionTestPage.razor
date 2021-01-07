@@ -1,0 +1,51 @@
+﻿@using System.Text
+
+<p>
+    Text area
+    <textarea id="MyTextArea" rows="10"  @oninput="Resize"></textarea>
+</p>
+<p><button onclick="SelectText"></button></p>
+
+<p><label>This area is @(MyHeight)px</label></p>
+
+@code
+{
+    [Inject] IJSRuntime JSRuntime { get; set; }
+
+    private void SelectText()
+    {
+
+    }
+
+    double MyHeight=0;
+    async Task Resize()
+    {
+        var result = await JSRuntime.InvokeAsync<object>("eval",@"(function() {
+            MyTextArea.style.height='auto';
+            MyTextArea.style.height=(MyTextArea.scrollHeight)+'px';
+            return MyTextArea.scrollHeight;
+        })()");
+        Double.TryParse(result.ToString(), out MyHeight);
+    }
+
+    async Task SetSelection()
+    {
+        var funcToExecute = new StringBuilder();
+        funcToExecute.Append("function createSelection(field, start, end) {");
+        funcToExecute.Append("    if( field.createTextRange ) {");
+        funcToExecute.Append("        var selRange = field.createTextRange();");
+        funcToExecute.Append("        selRange.collapse(true);");
+        funcToExecute.Append("        selRange.moveStart('character', start);");
+        funcToExecute.Append("        selRange.moveEnd('character', end);");
+        funcToExecute.Append("        selRange.select();");
+        funcToExecute.Append("        field.focus();");
+        funcToExecute.Append("    } else if( field.setSelectionRange ) {");
+        funcToExecute.Append("        field.focus();");
+        funcToExecute.Append("        field.setSelectionRange(start, end);");
+        funcToExecute.Append("    } else if( typeof field.selectionStart != 'undefined' ) {");
+        funcToExecute.Append("        field.selectionStart = start;");
+        funcToExecute.Append("        field.selectionEnd = end;");
+        funcToExecute.Append("        field.focus();");
+        funcToExecute.Append("    }");
+    }
+}
