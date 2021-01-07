@@ -1,0 +1,20 @@
+﻿<textarea id="MyTextArea"
+      rows="2" 
+      placeholder="Sample text."
+      @oninput="Resize"></textarea>
+
+<label>This area is @(MyHeight)px</label>
+@code
+{
+    [Inject] IJSRuntime JSRuntime { get; set; }
+    double MyHeight=0;
+    async Task Resize()
+    {
+        var result = await JSRuntime.InvokeAsync<object>("eval",@"(function() {
+            MyTextArea.style.height='auto';
+            MyTextArea.style.height=(MyTextArea.scrollHeight)+'px';
+            return MyTextArea.scrollHeight;
+        })()");
+        Double.TryParse(result.ToString(), out MyHeight);
+    }
+}

@@ -1,0 +1,174 @@
+﻿@using BlazorDateRangePicker
+@using System.Text
+
+
+
+<a href="https://blazordaterangepicker.azurewebsites.net/positioning">Blazor Date Rate Picker</a> with <a href="https://github.com/jdtcn/BlazorDateRangePicker">github</a>
+
+<div>
+    <p>Date Range:<DateRangePicker @bind-StartDate="DateRangeStartDate" @bind-EndDate="DateRangeEndDate" /></p>
+    <p>StartDate: @DateRangeStartDate)</p>
+    <p>EndDate: @DateRangeEndDate)</p>
+</div>
+<br />
+<div>
+    <p>Single Date:<DateRangePicker SingleDatePicker="true" @bind-StartDate="SingleDateStartDate" @bind-EndDate="SingleDateEndDate" /></p>
+    <p>StartDate: @SingleDateStartDate)</p>
+    <p>EndDate: @SingleDateEndDate)</p>
+</div>
+<br />
+
+<div>
+    <p>
+        Fixed start date<DateRangePicker @ref="FixedStartDatePicker" StartDate="FixedStartDate" @bind-EndDate="FixedEndDate"
+                                         OnMonthChanged="MonthChanged" SingleDatePicker="true" ShowDropdowns="false" placeholder="Select dates..." />
+    </p>
+    <p>StartDate: @FixedStartDate)</p>
+    <p>EndDate: @FixedEndDate)</p>
+</div>
+<br />
+
+
+<div>
+
+    <p>
+        Simple customized
+        <DateRangePicker ShowOnlyOneCalendar="true" ShowDropdowns="false" AutoApply="true" @ref="SimpleCustomFormatPicker" OnOpened="OnOpened" placeholder="(Select ship date)">
+            <PickerTemplate>
+                <div id="@context.Id" @onclick="context.Toggle" style="background: #fff; cursor: pointer; padding: .45rem 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    <i class="oi oi-calendar"></i>&nbsp;
+                    <span>
+                        @if (context.TStartDate == null && context.TEndDate == null)
+                        {
+                            <span>Select date...</span>
+                        }
+                        else if (context.TStartDate != null && context.TEndDate == null)
+                        {
+                            if (context.HoverDate > context.TStartDate)
+                            {
+                                @($"{context.TStartDate.Value.ToString(context.DateFormat)} ")
+                                @($" - ({(context.HoverDate.Value.Subtract(context.TStartDate.Value).Days).ToString()} hover days)")
+                            }
+                            else
+                            {
+                                <span>@context.TStartDate.Value.ToString("dd/MM/yyyy")</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>
+                                @context.FormattedRange @($" - ({(context.TEndDate.Value.Subtract(context.TStartDate.Value).Days).ToString()} final days)")
+                            </span>
+                        }
+                    </span>
+                    <i class="oi oi-chevron-bottom float-right"></i>
+                </div>
+            </PickerTemplate>
+        </DateRangePicker>
+    </p>
+    <p>StartDate: @FixedStartDate)</p>
+    <p>EndDate: @FixedEndDate)</p>
+
+</div>
+<br />
+
+
+<div>
+    <p>
+        Custom Format<DateRangePicker ShowOnlyOneCalendar="true" ShowDropdowns="false" AutoApply="true" @ref="CustomFormatPicker" placeholder="(Select ship date)"
+                                      StartDate="FixedStartDate" @bind-EndDate="CustomFormatEndDate">
+            <PickerTemplate>
+                <div id="@context.Id" @onclick="context.Toggle" style="background: #fff; cursor: pointer; padding: .45rem 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    <i class="oi oi-calendar"></i>&nbsp;
+                    <span>
+                        @if (context.TStartDate == null && context.TEndDate == null)
+                        {
+                            <span>Select date...</span>
+                        }
+                        else if (context.TStartDate != null && context.TEndDate == null)
+                        {
+                            if (context.HoverDate > context.TStartDate)
+                            {
+                                @($"{context.TStartDate.Value.ToString(context.DateFormat)} ")
+                                @($" - ({(context.HoverDate.Value.Subtract(context.TStartDate.Value).Days).ToString()} days)")
+                            }
+                            else
+                            {
+                                <span>@context.TStartDate.Value.ToString("dd/MM/yyyy")</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>
+                                @context.FormattedRange @($" - ({(context.TEndDate.Value.Subtract(context.TStartDate.Value).Days).ToString()} days)")
+                            </span>
+                        }
+                    </span>
+                    <i class="oi oi-chevron-bottom float-right"></i>
+                </div>
+            </PickerTemplate>
+        </DateRangePicker>
+    </p>
+    <p>StartDate: @FixedStartDate)</p>
+    <p>EndDate: @FixedEndDate)</p>
+</div>
+
+
+@code{
+
+    public DateTimeOffset OrderDate = DateTimeOffset.Now;
+
+    public DateTimeOffset? CustomFormatStartDate { get; set; } = DateTime.Now;
+    public DateTimeOffset? CustomFormatEndDate { get; set; } = DateTime.Now.AddDays(15);
+
+    public DateTimeOffset? DateRangeStartDate { get; set; } = DateTime.Now;
+    public DateTimeOffset? DateRangeEndDate { get; set; } = DateTime.Now.AddDays(15);
+
+    public DateTimeOffset? SingleDateStartDate { get; set; } = DateTime.Now;
+    public DateTimeOffset? SingleDateEndDate { get; set; } = DateTime.Now.AddDays(15);
+
+    public DateTimeOffset FixedStartDate { get; } = DateTime.Now;
+    public DateTimeOffset? FixedEndDate { get; set; } = DateTime.Now.AddDays(15);
+
+
+    DateRangePicker FixedStartDatePicker { get; set; }
+    DateRangePicker CustomFormatPicker { get; set; }
+    DateRangePicker SimpleCustomFormatPicker { get; set; }
+
+    private void MonthChanged()
+    {
+        UpdateClickHandlers();
+    }
+
+    private void UpdateClickHandlers()
+    {
+        var days = Enumerable
+            .Concat(FixedStartDatePicker.LeftCalendar.Calendar, FixedStartDatePicker.RightCalendar.Calendar)
+            .SelectMany(d => d);
+
+        foreach (var day in days)
+        {
+            var dayClick = day.Click;
+            day.Click = () =>
+            {
+                if (day.Day > FixedStartDate && FixedStartDatePicker.TStartDate.HasValue && FixedStartDatePicker.TEndDate.HasValue)
+                {
+                    FixedStartDatePicker.TStartDate = FixedStartDate;
+                    FixedStartDatePicker.TEndDate = null;
+                    dayClick.Invoke();
+                }
+                else if (day.Day > FixedStartDate)
+                {
+                    dayClick.Invoke();
+                }
+            };
+        }
+    }
+
+
+    private void OnOpened()
+    {
+        SimpleCustomFormatPicker.TStartDate = DateTimeOffset.Now;
+    }
+
+}
