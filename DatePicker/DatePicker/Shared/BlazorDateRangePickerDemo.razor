@@ -59,7 +59,7 @@ This is a custom format picker, and it was last opened @CustomFormatPickerOpened
 
 
 <br />
-It has this cool feature of disabling certain dates, such as only allowing dates starting 3 days from today
+Certain dates can be disabled, such as only allowing dates starting 3 days from today
 <DateRangePicker DaysEnabledFunction="DaysEnabledFunction" />
 
 <br />
@@ -93,8 +93,8 @@ It can also highlight certain days, like if you are on vacation next week
 
     private object CustomDateFunction(DateTimeOffset day)
     {
-        var daysUntilMonday = ((int) DayOfWeek.Monday - (int) DateTime.Today.DayOfWeek + 7) % 7;
-        var nextMonday= DateTime.Today.AddDays(daysUntilMonday);
+        var daysUntilMonday = ((int)DayOfWeek.Monday - (int)DateTime.Today.DayOfWeek + 7) % 7;
+        var nextMonday = DateTime.Today.AddDays(daysUntilMonday);
         var nextFriday = nextMonday.AddDays(5);
 
         //return the style name desired - note the style at the top of this page
