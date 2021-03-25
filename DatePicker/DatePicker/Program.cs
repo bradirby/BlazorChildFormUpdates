@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MatBlazor;
 
 namespace DatePicker
 {
@@ -18,7 +19,7 @@ namespace DatePicker
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddAntDesign();
-
+            builder.Services.AddMatBlazor();
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             await builder.Build().RunAsync();
