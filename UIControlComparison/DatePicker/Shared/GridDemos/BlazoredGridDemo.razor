@@ -1,0 +1,129 @@
+﻿@using Blazored.Typeahead
+@using DatePicker.Model
+@using Sotsera.Blazor.Toaster
+
+
+<DataGrid TItem="Film"
+          Data="@Films"
+          UseInternalEditing="true"
+          EditMode="DataGridEditMode.Inline"
+          ShowPager="false"
+          Editable="true"
+          Hoverable="true"
+          SelectedRow="SelectedFilm"
+          SelectedRowChanged="RowSelectHandler"
+          RowUpdated="RowUpdatedHandler"
+          RowInserted="RowInsertedHandler"
+          RowRemoving="RowRemovedHandler"
+          PageSize="10">
+    <DataGridCommandColumn TItem="Film" Width="50px">
+        <NewCommandTemplate>
+            <Button  Clicked="@context.Clicked" Display="Display.None">New</Button>
+        </NewCommandTemplate>
+        <EditCommandTemplate>
+            <Button Color="Color.Primary" Clicked="@context.Clicked" Display="Display.None">Edit</Button>
+        </EditCommandTemplate>
+        <SaveCommandTemplate>
+            <Button Color="Color.Primary" Clicked="@context.Clicked" Display="Display.None">Save</Button>
+        </SaveCommandTemplate>
+        <DeleteCommandTemplate>
+            <Button Color="Color.Danger" Clicked="@context.Clicked"><i class="fa fa-times" aria-hidden="true"></i></Button>
+        </DeleteCommandTemplate>
+        <CancelCommandTemplate>
+            <Button Color="Color.Secondary" Clicked="@context.Clicked" Display="Display.None">Cancel</Button>
+        </CancelCommandTemplate>
+        <ClearFilterCommandTemplate>
+            <Button Color="Color.Warning" Clicked="@context.Clicked" Display="Display.None">Clear Filter</Button>
+        </ClearFilterCommandTemplate>
+    </DataGridCommandColumn>
+    <DataGridNumericColumn TItem="Film" Field="@nameof(Film.Title)" Caption="Title" TextAlignment="TextAlignment.Center" Sortable="true" Editable="true" Width="20" />
+    <DataGridNumericColumn TItem="Film" Field="@nameof(Film.CriticScore)" Caption="Critic Score" TextAlignment="TextAlignment.Center" Sortable="true" Editable="false" Width="20" DisplayFormat="{0:N0}" />
+
+    @*<DataGridSelectColumn TItem="DoorSetGridRowViewModel" Field="@nameof(DoorSetGridRowViewModel.DoorTypeName)" Caption="Type" Sortable="true" Editable="true" Width="50">
+            <EditTemplate>
+                <Select TValue="string" SelectedValue="@((string)( ( (CellEditContext)context ).CellValue ))" SelectedValueChanged="@(( v ) => ( (CellEditContext)context ).CellValue = v)">
+                    <SelectItem TValue="string" Value="null">All</SelectItem>
+                    @foreach (var item in DoorTypeOptions.Options)
+                    {
+                        <SelectItem TValue="string" Value="@item.ValueField">@item.ValueField</SelectItem>
+                    }
+                </Select>
+            </EditTemplate>
+        </DataGridSelectColumn>*@
+    @*<DataGridSelectColumn TItem="DoorSetGridRowViewModel" Field=@nameof(DoorSetGridRowViewModel.DoorStyleName) Caption="Style" Width="50" Sortable="true" Editable="true">
+            <EditTemplate>
+                <Select TValue="string" SelectedValue="@((string)( ( (CellEditContext)context ).CellValue ))" SelectedValueChanged="@(( v ) => ( (CellEditContext)context ).CellValue = v)">
+                    <SelectItem TValue="string" Value="null">All</SelectItem>
+                    @foreach (var item in DoorStyleOptions.Options)
+                    {
+                        <SelectGroup>@item.GroupName</SelectGroup>
+                        <SelectItem TValue="string" Value="@item.ValueField">@item.ValueField</SelectItem>
+                    }
+                </Select>
+            </EditTemplate>
+        </DataGridSelectColumn>*@
+    @*<DataGridNumericColumn TItem="DoorSetGridRowViewModel" Field=@nameof(DoorSetGridRowViewModel.Width) Caption="Width" Sortable="true" Editable="true" Width="40" DisplayFormat="{0:N4}"></DataGridNumericColumn>
+        <DataGridNumericColumn TItem="DoorSetGridRowViewModel" Field=@nameof(DoorSetGridRowViewModel.Height) Caption="Height" Sortable="true" Editable="true" Width="40" DisplayFormat="{0:N4}"></DataGridNumericColumn>*@
+    @*<DataGridSelectColumn TItem="DoorSetGridRowViewModel" Field=@nameof(DoorSetGridRowViewModel.PanelMaterialName) Caption="Panel" Sortable="true" Editable="true" Width="50">
+            <EditTemplate>
+                <Select TValue="string" SelectedValue="@((string)( ( (CellEditContext)context ).CellValue ))" SelectedValueChanged="@(( v ) => ( (CellEditContext)context ).CellValue = v)">
+
+                    <SelectItem TValue="string" Value="null">All</SelectItem>
+                    @foreach (var item in PanelMaterialOptions.Options)
+                    {
+                        <SelectGroup>@item.GroupName</SelectGroup>
+                        <SelectItem TValue="string" Value="@item.ValueField">@item.ValueField</SelectItem>
+                    }
+                </Select>
+            </EditTemplate>
+        </DataGridSelectColumn>*@
+    <DataGridCheckColumn TItem="DoorSetCustomerGridRowViewModel" Field=@nameof(DoorSetCustomerGridRowViewModel.IsCustom) Caption="Custom" TextAlignment="TextAlignment.Center" Editable="true" Sortable="false" Width="20">
+        <DisplayTemplate>
+            <Check TValue="bool" Checked="context.IsCustom" ReadOnly="false" @onclick="@(()=> { context.IsCustom = !context.IsCustom;  UpdateParentState.InvokeAsync(""); })" />
+        </DisplayTemplate>
+    </DataGridCheckColumn>
+
+    <DataGridNumericColumn TItem="DoorSetCustomerGridRowViewModel" Field=@nameof(DoorSetCustomerGridRowViewModel.Subtotal) TextAlignment="TextAlignment.Right" Editable="false" Caption="Sub Total" Width="50" DisplayFormat="{0:C2}"></DataGridNumericColumn>
+    <DataGridNumericColumn TItem="DoorSetCustomerGridRowViewModel" Field=@nameof(DoorSetCustomerGridRowViewModel.Total) TextAlignment="TextAlignment.Right" Editable="false" Caption="Upcharges" Width="50" DisplayFormat="{0:C2}"></DataGridNumericColumn>
+    <DataGridNumericColumn TItem="DoorSetCustomerGridRowViewModel" Field=@nameof(DoorSetCustomerGridRowViewModel.Total) TextAlignment="TextAlignment.Right" Editable="false" Caption="Total" Width="100" DisplayFormat="{0:C2}"></DataGridNumericColumn>
+    <DataGridColumn TItem="DoorSetCustomerGridRowViewModel" Field=@nameof(DoorSetCustomerGridRowViewModel.NetFinishedSize) Editable="false" Caption="Note" Width="50"></DataGridColumn>
+
+</DataGrid>
+@code {
+
+    public IEnumerable<Film> Films { get; set; }
+    public List<Genre> Genres { get; set; }
+    [Inject] protected IToaster Toaster { get; set; }
+    public Film SelectedFilm { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        Genres = Genre.GetNewList();
+        Films = Film.GetNewList(Genres);
+
+        SelectedFilm = Films.First();
+        return base.OnInitializedAsync();
+    }
+
+
+    public void RowSelectHandler(Film args)
+    {
+        Toaster.Info($"Row Selected {args.Title}");
+    }
+    public void RowUpdatedHandler(SavedRowItem<Film, Dictionary<string, object>> e)
+    {
+        Toaster.Info($"Row Updated {e.Item.Title}");
+    }
+
+    public void RowRemovedHandler(CancellableRowChange<Film> e)
+    {
+        Toaster.Info($"Row Removed{e.Item.Title}");
+    }
+
+
+    public void RowInsertedHandler(SavedRowItem<Film, Dictionary<string, object>> e)
+    {
+        Toaster.Info($"Row Inserted{e.Item.Title}");
+
+    }
+}
