@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazored.Typeahead" Version="4.5.1" />
+  </ItemGroup>
+
 </Project>

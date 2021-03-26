@@ -1,0 +1,93 @@
+﻿@using Blazored.Typeahead
+@using DatePicker.Model
+
+@page "/TypeaheadTestPage"
+
+<h3>BlazoredTypeaheadTest</h3>
+
+
+<BlazoredTypeahead SearchMethod="SearchFilms" @bind-Value="SelectedFilm1" Debounce="5">
+    <SelectedTemplate>
+        @context.Title
+    </SelectedTemplate>
+    <ResultTemplate>
+        @context.Title (@context.Year)
+    </ResultTemplate>
+</BlazoredTypeahead>
+<br />
+<BlazoredTypeahead SearchMethod="SearchFilms" @bind-Value="SelectedFilm2" Debounce="5">
+    <SelectedTemplate>
+        @context.Title
+    </SelectedTemplate>
+    <ResultTemplate>
+        @context.Title (@context.Year)
+    </ResultTemplate>
+</BlazoredTypeahead>
+<br />
+<BlazoredTypeahead SearchMethod="SearchFilms" @bind-Value="SelectedFilm3" Debounce="5">
+    <SelectedTemplate>
+        @context.Title
+    </SelectedTemplate>
+    <ResultTemplate>
+        @context.Title (@context.Year)
+    </ResultTemplate>
+</BlazoredTypeahead>
+
+<br />
+
+the copmonent: @lookupCode
+<BlazoredTypeAheadDemo LookupOptions=Codes @bind-SelectedCode=lookupCode></BlazoredTypeAheadDemo>
+
+
+@code {
+
+    public int lookupCode { get; set; } = 2;
+
+    public Film SelectedFilm1 { get; set; }
+    public Film SelectedFilm2 { get; set; }
+    public Film SelectedFilm3 { get; set; }
+
+    public List<Film> Films { get; set; } = new List<Film>();
+    private List<LookupCode> Codes = new List<LookupCode>();
+
+    private async Task<IEnumerable<Film>> SearchFilms(string searchText)
+    {
+        return await Task.FromResult(Films.Where(x => x.Title.ToLower().Contains(searchText.ToLower())).ToList());
+    }
+
+    protected override void OnInitialized()
+    {
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"first title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"second title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"third title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"fourth title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"fifth title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"sixth title {2000 + n}", Year = 2000 + n });
+        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"seventh title {2000 + n}", Year = 2000 + n });
+
+
+        var counter = 1;
+        Codes.Add(new LookupCode() { Code = 0, Description = $"None" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"Desc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"aDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"bDesc{counter - 1}" });
+        Codes.Add(new LookupCode() { Code = counter++, Description = $"cDesc{counter - 1}" });
+    }
+
+
+
+}

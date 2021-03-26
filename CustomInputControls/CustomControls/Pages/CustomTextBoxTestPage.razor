@@ -1,0 +1,23 @@
+﻿@using CustomControls.Model
+<h3>CustomTextBoxTestPage</h3>
+
+<EditForm Model="MyFormDataModel" OnValidSubmit="HandleValidSubmit">
+
+    <CustomTextBox Id="MyTextBox" Label="My Label" @bind-Value="MyFormDataModel.Name" ValidationFor="@(() => MyFormDataModel.Name)" ></CustomTextBox>
+    Bound value : '@MyFormDataModel.Name'
+    
+    <CustomTextBox  @bind-Value="MyFormDataModel.LastName"  ></CustomTextBox>
+    Bound value : '@MyFormDataModel.LastName'
+
+    
+
+</EditForm>
+
+@code {
+    public IntPerson MyFormDataModel { get; set; } = new IntPerson() {Name = "person fname"};
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine("Valid Submit");
+    }
+}
