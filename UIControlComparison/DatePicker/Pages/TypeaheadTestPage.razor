@@ -11,7 +11,7 @@
         @context.Title
     </SelectedTemplate>
     <ResultTemplate>
-        @context.Title (@context.Year)
+        @context.Title (@context.ReleaseDate.Year)
     </ResultTemplate>
 </BlazoredTypeahead>
 <br />
@@ -20,7 +20,7 @@
         @context.Title
     </SelectedTemplate>
     <ResultTemplate>
-        @context.Title (@context.Year)
+        @context.Title (@context.ReleaseDate.Year)
     </ResultTemplate>
 </BlazoredTypeahead>
 <br />
@@ -29,7 +29,7 @@
         @context.Title
     </SelectedTemplate>
     <ResultTemplate>
-        @context.Title (@context.Year)
+        @context.Title (@context.ReleaseDate.Year)
     </ResultTemplate>
 </BlazoredTypeahead>
 
@@ -57,13 +57,16 @@ the copmonent: @lookupCode
 
     protected override void OnInitialized()
     {
-        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"first title {2000 + n}", Year = 2000 + n });
-        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"second title {2000 + n}", Year = 2000 + n });
-        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"third title {2000 + n}", Year = 2000 + n });
-        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"fourth title {2000 + n}", Year = 2000 + n });
-        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"fifth title {2000 + n}", Year = 2000 + n });
-        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"sixth title {2000 + n}", Year = 2000 + n });
-        for (int n = 1; n < 6; n++) Films.Add(new Film() { Title = $"seventh title {2000 + n}", Year = 2000 + n });
+        var gLst = Genre.GetNewList();
+        var genre = gLst.First();
+
+        for (int n = 1; n < 6; n++) Films.Add(new Film( $"first title {2000 + n}",5, DateTime.Now, genre, 2000 + n ,true));
+        for (int n = 1; n < 6; n++) Films.Add(new Film( $"second title {2000 + n}", 5, DateTime.Now, genre, 2000 + n, true));
+        for (int n = 1; n < 6; n++) Films.Add(new Film( $"third title {2000 + n}", 5, DateTime.Now, genre, 2000 + n, true));
+        for (int n = 1; n < 6; n++) Films.Add(new Film( $"fourth title {2000 + n}", 5, DateTime.Now, genre, 2000 + n, true));
+        for (int n = 1; n < 6; n++) Films.Add(new Film( $"fifth title {2000 + n}", 5, DateTime.Now, genre, 2000 + n, true));
+        for (int n = 1; n < 6; n++) Films.Add(new Film( $"sixth title {2000 + n}", 5, DateTime.Now, genre, 2000 + n, true));
+        for (int n = 1; n < 6; n++) Films.Add(new Film( $"seventh title {2000 + n}", 5, DateTime.Now, genre, 2000 + n, true));
 
 
         var counter = 1;

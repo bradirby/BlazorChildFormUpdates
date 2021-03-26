@@ -13,14 +13,16 @@ namespace DatePicker.Model
         public DateTime ReleaseDate { get; set; }
         public Genre FilmGenre { get; set; }
         public decimal NetEarnings { get;set;}
+        public bool IsProfitable { get; set; }
 
-        public Film(string title, int score, DateTime release, Genre g, decimal earnings)
+        public Film(string title, int score, DateTime release, Genre g, decimal earnings, bool isProfitable)
         {
             Title = title;
             CriticScore = score;
             ReleaseDate = release;
             FilmGenre = g;
             NetEarnings = earnings;
+            IsProfitable = isProfitable;
         }
 
         public static List<Film> GetNewList(List<Genre> genres)
@@ -31,17 +33,17 @@ namespace DatePicker.Model
             var score = 1;
             foreach (var g in genres)
             {
-                lst.Add(new Film($"Film {counter}", score,DateTime.Today.AddDays(-counter), g, (counter * 2.3M + score * 3.2M)));
+                lst.Add(new Film($"Film {counter}", score,DateTime.Today.AddDays(-counter), g, (counter * 2.3M + score * 3.2M),true));
                 counter += 1;
                 score += 1;
                 if (score >= 6) score = 1;
 
-                lst.Add(new Film($"Film {counter}", score, DateTime.Today.AddDays(-counter), g, (counter * 6.9M + score * 7.8M)));
+                lst.Add(new Film($"Film {counter}", score, DateTime.Today.AddDays(-counter), g, (counter * 6.9M + score * 7.8M), false));
                 counter += 1;
                 score += 1;
                 if (score >= 6) score = 1;
 
-                lst.Add(new Film($"Film {counter}", score, DateTime.Today.AddDays(-counter), g, (counter * 1.3M + score * 13.9M)));
+                lst.Add(new Film($"Film {counter}", score, DateTime.Today.AddDays(-counter), g, (counter * 1.3M + score * 13.9M), true));
                 counter += 1;
                 score += 1;
                 if (score >= 6) score = 1;
