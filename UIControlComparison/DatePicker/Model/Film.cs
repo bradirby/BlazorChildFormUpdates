@@ -8,12 +8,21 @@ namespace DatePicker.Model
 {
     public class Film
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public int CriticScore{ get; set; }
         public string Title { get; set; }
         public DateTime ReleaseDate { get; set; }
         public Genre FilmGenre { get; set; }
         public decimal NetEarnings { get;set;}
         public bool IsProfitable { get; set; }
+
+        public Film()
+        {
+            //parameterless constructor is necessary to enable the "New" button on grids, else adding will throw exception
+            FilmGenre = new Genre(0, "Unknown");
+            Title = "New Film";
+        }
+
 
         public Film(string title, int score, DateTime release, Genre g, decimal earnings, bool isProfitable)
         {
