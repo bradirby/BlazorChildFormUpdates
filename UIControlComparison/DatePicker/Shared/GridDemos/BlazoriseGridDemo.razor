@@ -10,10 +10,10 @@ Grid showing inline editor
           Editable="true"
           Hoverable="true"
           SelectedRow="SelectedInlineGridFilm"
-          SelectedRowChanged="RowSelectHandler"
-          RowUpdated="RowUpdatedHandler"
-          RowInserted="RowInsertedHandler"
-          RowRemoving="RowRemovedHandler"
+          SelectedRowChanged="InlineGridRowSelectHandler"
+          RowUpdated="InlineGridRowUpdatedHandler"
+          RowInserted="InlineGridRowInsertedHandler"
+          RowRemoving="InlineGridRowRemovedHandler"
           PageSize="5">
     <DataGridCommandColumn TItem="Film" Width="250px">
         <NewCommandTemplate>
@@ -106,6 +106,10 @@ Grid showing popup editor
           Editable="true"
           Hoverable="true"
           SelectedRow="SelectedPopupGridFilm"
+          SelectedRowChanged="PopupGridRowSelectHandler"
+          RowUpdated="PopupGridRowUpdatedHandler"
+          RowInserted="PopupGridRowInsertedHandler"
+          RowRemoving="PopupGridRowRemovedHandler"
           PageSize="5">
     <DataGridCommandColumn TItem="Film" Width="250px">
         <NewCommandTemplate>
@@ -215,33 +219,67 @@ Grid showing internal form editor created by the grid.  The form to use is not u
         return base.OnInitializedAsync();
     }
 
-    public void RowSelectHandler(Film args)
+    public void InlineGridRowSelectHandler(Film args)
     {
-        Toaster.Info($"Row Selected {args.Title}");
+        Toaster.Info($"InlineGridFilms Row Selected {args.Title}");
 
         //if the RowSelectedHandler is defined, then you must manage the selected item manually, else it is automatic
+        //if you have multiple grid on the same page you must define all or none of the RowSelectHandlers - they interfere with each other
         SelectedInlineGridFilm = args;  
     }
 
-    public void RowUpdatedHandler(SavedRowItem<Film, Dictionary<string, object>> e)
+    public void InlineGridRowUpdatedHandler(SavedRowItem<Film, Dictionary<string, object>> e)
     {
-        Toaster.Info($"Row Updated {e.Item.Title}");
+        Toaster.Info($"InlineGridFilms Row Updated {e.Item.Title}");
     }
 
-    public void RowRemovedHandler(CancellableRowChange<Film> e)
+    public void InlineGridRowRemovedHandler(CancellableRowChange<Film> e)
     {
         Toaster.Info($"Row Removed{e.Item.Title}");
         var item = InlineGridFilms.FirstOrDefault(f => f.Id == e.Item.Id);
-        if (item == null) Toaster.Info($"Row is removed from source list");
-        else Toaster.Info("Row is still in the source list - it must be removed manually");
+        if (item == null) Toaster.Info($"InlineGridFilms Row is removed from source list");
+        else Toaster.Info("InlineGridFilms Row is still in the source list - it must be removed manually");
     }
 
-    public void RowInsertedHandler(SavedRowItem<Film, Dictionary<string, object>> e)
+    public void InlineGridRowInsertedHandler(SavedRowItem<Film, Dictionary<string, object>> e)
     {
         Toaster.Info($"Row Inserted{e.Item.Title}");
         var item = InlineGridFilms.FirstOrDefault(f => f.Id == e.Item.Id);
-        if (item == null) Toaster.Info($"Row is not in source list - it must be added manually");
-        else Toaster.Info("Row is already in source list");
+        if (item == null) Toaster.Info($"InlineGridFilms Row is not in source list - it must be added manually");
+        else Toaster.Info("InlineGridFilms Row is already in source list");
+
+    }
+
+
+
+    public void PopupGridRowSelectHandler(Film args)
+    {
+        Toaster.Info($"PopupGridFilms Row Selected {args.Title}");
+
+        //if the RowSelectedHandler is defined, then you must manage the selected item manually, else it is automatic
+        //if you have multiple grid on the same page you must define all or none of the RowSelectHandlers - they interfere with each other
+        SelectedPopupGridFilm = args;  
+    }
+
+    public void PopupGridRowUpdatedHandler(SavedRowItem<Film, Dictionary<string, object>> e)
+    {
+        Toaster.Info($"PopupGridFilms Row Updated {e.Item.Title}");
+    }
+
+    public void PopupGridRowRemovedHandler(CancellableRowChange<Film> e)
+    {
+        Toaster.Info($"Row Removed{e.Item.Title}");
+        var item = PopupGridFilms.FirstOrDefault(f => f.Id == e.Item.Id);
+        if (item == null) Toaster.Info($"PopupGridFilms Row is removed from source list");
+        else Toaster.Info("PopupGridFilms Row is still in the source list - it must be removed manually");
+    }
+
+    public void PopupGridRowInsertedHandler(SavedRowItem<Film, Dictionary<string, object>> e)
+    {
+        Toaster.Info($"Row Inserted{e.Item.Title}");
+        var item = PopupGridFilms.FirstOrDefault(f => f.Id == e.Item.Id);
+        if (item == null) Toaster.Info($"PopupGridFilms Row is not in source list - it must be added manually");
+        else Toaster.Info("PopupGridFilms Row is already in source list");
 
     }
 }
