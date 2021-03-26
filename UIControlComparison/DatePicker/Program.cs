@@ -1,16 +1,13 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using MatBlazor;
+using MComponents;
 using Sotsera.Blazor.Toaster.Core.Models;
 
 namespace DatePicker
@@ -34,7 +31,7 @@ namespace DatePicker
                 config.PreventDuplicates = true;
                 config.NewestOnTop = false;
             });
-
+            builder.Services.AddMComponents();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
