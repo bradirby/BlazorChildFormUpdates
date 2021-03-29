@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
+using BlazorTable;
 using MatBlazor;
 using MComponents;
 using Sotsera.Blazor.Toaster.Core.Models;
@@ -32,6 +33,7 @@ namespace DatePicker
                 config.NewestOnTop = false;
             });
             builder.Services.AddMComponents();
+            builder.Services.AddBlazorTable();
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
