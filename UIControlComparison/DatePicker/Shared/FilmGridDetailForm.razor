@@ -5,8 +5,11 @@
     <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
 
     <InputText id="name" @bind-Value="CurrentFilm.Title" />
-
-    <button type="submit">Submit</button>
+    
+    @if (ShowSubmitButton)
+    {
+        <button type="submit">Submit</button>
+    }
 </EditForm>
 
 @code {
@@ -14,9 +17,12 @@
     [Parameter]
     public Film CurrentFilm { get; set; }
 
+    [Parameter]
+    public bool ShowSubmitButton { get; set; } = true;
+
     private void HandleValidSubmit()
     {
-        
+
     }
 
 }

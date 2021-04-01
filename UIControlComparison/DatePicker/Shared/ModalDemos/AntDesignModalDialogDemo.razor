@@ -1,0 +1,59 @@
+﻿@using AntDesign
+@using DatePicker.Model
+
+<AntDesign.Button Type="primary" OnClick="@ShowModal">
+    Open Modal with customized footer
+</AntDesign.Button>
+@{
+    RenderFragment footer = @<Template>
+        <AntDesign.Button OnClick="@HandleOk" @key="@( "submit" )"
+                          Type="primary"
+                          Loading="@_loading">
+            Submit
+        </AntDesign.Button>
+        <AntDesign.Button OnClick="@HandleCancel" @key="@( "back" )">Cancel</AntDesign.Button>
+    </Template>;
+}
+
+
+<AntDesign.Modal Title="@("Title")"
+       Visible="@_visible"
+       OnOk="@HandleOk"
+       OnCancel="@HandleCancel"
+       Footer="@footer">
+    <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="false"></FilmGridDetailForm>
+</AntDesign.Modal>
+
+
+@code {
+    public Film SelectedInlineGridFilm { get; set; } = new Film();
+
+
+    bool _visible = false;
+    bool _loading = false;
+
+    private void ShowModal()
+    {
+        _visible = true;
+    }
+
+
+    private async Task HandleOk(MouseEventArgs e)
+    {
+        _loading = true;
+        await Task.Delay(3000);
+        _visible = false;
+        _loading = false;
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+        _visible = false;
+    }
+
+}
+
+
+
+
+
