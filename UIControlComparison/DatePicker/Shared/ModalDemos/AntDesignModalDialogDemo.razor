@@ -1,55 +1,61 @@
 ﻿@using AntDesign
 @using DatePicker.Model
 
-<AntDesign.Button Type="primary" OnClick="@ShowModal">
+
+<AntDesign.Button Type="primary" OnClick="@(()=>{ SimpleModalVisible = true; })">
+    Open Modal
+</AntDesign.Button>
+<AntDesign.Modal Title="Multiple OK Buttons" Visible="@SimpleModalVisible" OnOk="@HandleOk" OnCancel="@(()=>{ SimpleModalVisible = false; })">
+
+    <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="true"></FilmGridDetailForm>
+    <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="true"></FilmGridDetailForm>
+    <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="true"></FilmGridDetailForm>
+
+</AntDesign.Modal>
+
+
+
+
+<AntDesign.Button Type="primary" OnClick="@(() => CustomFooterModalVisible = true)">
     Open Modal with customized footer
 </AntDesign.Button>
 @{
     RenderFragment footer = @<Template>
-        <AntDesign.Button OnClick="@HandleOk" @key="@( "submit" )"
-                          Type="primary"
-                          Loading="@_loading">
-            Submit
+        <AntDesign.Button OnClick="@HandleOk" @key="@( "submit" )" Type="primary" Loading="@_loading">
+            Custom Submit Button
         </AntDesign.Button>
-        <AntDesign.Button OnClick="@HandleCancel" @key="@( "back" )">Cancel</AntDesign.Button>
+        <AntDesign.Button OnClick="@(() => CustomFooterModalVisible = false)" @key="@( "back" )">Custom Cancel</AntDesign.Button>
     </Template>;
 }
-
-
-<AntDesign.Modal Title="@("Title")"
-       Visible="@_visible"
-       OnOk="@HandleOk"
-       OnCancel="@HandleCancel"
-       Footer="@footer">
+<AntDesign.Modal Title="Customized Footer"
+                 Visible="@CustomFooterModalVisible"
+                 OnOk="@HandleOk"
+                 OnCancel="@(() => CustomFooterModalVisible = false)"
+                 Footer="@footer">
     <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="false"></FilmGridDetailForm>
 </AntDesign.Modal>
+
+
 
 
 @code {
     public Film SelectedInlineGridFilm { get; set; } = new Film();
 
 
-    bool _visible = false;
-    bool _loading = false;
 
-    private void ShowModal()
-    {
-        _visible = true;
-    }
+    bool SimpleModalVisible = false;
+    bool CustomFooterModalVisible = false;
+    bool _loading = false;
 
 
     private async Task HandleOk(MouseEventArgs e)
     {
         _loading = true;
         await Task.Delay(3000);
-        _visible = false;
+        CustomFooterModalVisible = false;
         _loading = false;
     }
 
-    private void HandleCancel(MouseEventArgs e)
-    {
-        _visible = false;
-    }
 
 }
 
