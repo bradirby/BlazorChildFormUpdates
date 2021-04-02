@@ -7,12 +7,13 @@
 </AntDesign.Button>
 <AntDesign.Modal Title="Multiple OK Buttons" Visible="@SimpleModalVisible" OnOk="@HandleOk" OnCancel="@(()=>{ SimpleModalVisible = false; })">
 
-    <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="true"></FilmGridDetailForm>
-    <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="true"></FilmGridDetailForm>
-    <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="true"></FilmGridDetailForm>
+    <DialogDisplayRow CurrentFilm="Film1" RowSelected="OnRowSelected"></DialogDisplayRow>
+    <DialogDisplayRow CurrentFilm="Film2" RowSelected="OnRowSelected"></DialogDisplayRow>
+    <DialogDisplayRow CurrentFilm="Film3" RowSelected="OnRowSelected"></DialogDisplayRow>
 
 </AntDesign.Modal>
-
+Selected Film: 
+<label>@SelectedFilm.Title</label>
 
 
 
@@ -32,15 +33,17 @@
                  OnOk="@HandleOk"
                  OnCancel="@(() => CustomFooterModalVisible = false)"
                  Footer="@footer">
-    <FilmGridDetailForm CurrentFilm="SelectedInlineGridFilm" ShowSubmitButton="false"></FilmGridDetailForm>
+    <DialogDisplayRow CurrentFilm="Film1" RowSelected="OnRowSelected"></DialogDisplayRow>
 </AntDesign.Modal>
 
 
 
 
 @code {
-    public Film SelectedInlineGridFilm { get; set; } = new Film();
-
+    public Film Film1{ get; set; } = new Film(){Title = "Film1"};
+    public Film Film2{ get; set; } = new Film() { Title = "Film2" };
+    public Film Film3{ get; set; } = new Film() { Title = "Film3" };
+    public Film SelectedFilm { get; set; } = new Film() { Title = "Initial Film" };
 
 
     bool SimpleModalVisible = false;
@@ -56,7 +59,13 @@
         _loading = false;
     }
 
+    [Parameter] public EventCallback DoorStyleChanged { get; set; }
 
+    private async Task OnRowSelected(Film e)
+    {
+        SelectedFilm = e;
+        SimpleModalVisible = false;
+    }
 }
 
 
